@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
+  <style>
+    #editor { height: 200px; border: 1px solid #ddd; }
+    #output { height: 200px; width: 100%; border: 1px solid #ddd; }
+    #errors { color: red; }
+  </style>
+</head>
+<body>
+
+<div>
+  <textarea id="editor"></textarea>
+</div>
+<button onclick="runCode()">Run Code</button>
+<div id="errors"></div>
+<iframe id="output"></iframe>
+
+<script>
+  // Initialize CodeMirror editor
+  var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+    mode: "htmlmixed",
+    lineNumbers: true
+  });
+
+  // Function to run the code
+  function runCode() {
+    var code = editor.getValue();
+    var outputFrame = document.getElementById('output');
+    var errorsDiv = document.getElementById('errors');
+    
+    errorsDiv.textContent = ""; // Clear previous errors
+
+    // Try running the code
+    try {
+      outputFrame.srcdoc = code;  // Output HTML in iframe
+    } catch (err) {
+      errorsDiv.textContent = "Error: " + err.message;  // Display error if any
+    }
+  }
+</script>
+
+</body>
+</html>
